@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>개혁주의 인간론 OX 퀴즈</title>
+<style>
+:root{
+  --bg:#0b1220; --panel:#121b2d; --panel2:#18243a; --text:#f7f9fc;
+  --muted:#9eb0c9; --line:#2a3b59; --blue:#4f8cff; --green:#2fd180;
+  --red:#ff6b74; --yellow:#ffd166; --shadow:0 20px 60px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:linear-gradient(180deg,#09111f,#101a2b);color:var(--text);min-height:100vh}
+button,select{font:inherit}
+.wrap{width:min(920px,calc(100% - 28px));margin:0 auto;padding:28px 0 64px}
+header{padding:18px 4px 8px}
+.badge{display:inline-flex;padding:7px 10px;border-radius:999px;background:#17305d;color:#9fc1ff;font-size:13px;font-weight:800;letter-spacing:.02em}
+h1{font-size:clamp(30px,6vw,52px);line-height:1.08;margin:16px 0 10px}
+.lead{color:var(--muted);line-height:1.6;margin:0}
+.card{background:rgba(18,27,45,.95);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:22px;margin-top:18px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.weekBtn,.modeBtn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:14px;padding:14px 10px;font-weight:800;cursor:pointer}
+.weekBtn.active,.modeBtn.active{background:#244a88;border-color:#4f8cff}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+select{width:100%;padding:14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);color:var(--text)}
+.primary{width:100%;border:0;background:var(--blue);color:white;font-weight:900;padding:16px 18px;border-radius:16px;cursor:pointer;margin-top:14px}
+.secondary{border:1px solid var(--line);background:var(--panel2);color:var(--text);font-weight:800;padding:12px 14px;border-radius:14px;cursor:pointer}
+.hidden{display:none!important}
+.quizTop{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.progressTrack{height:9px;background:#0b1424;border-radius:999px;overflow:hidden;margin:16px 0 0}
+.progressBar{height:100%;width:0;background:linear-gradient(90deg,#4f8cff,#6ba0ff)}
+.meta{font-size:13px;color:var(--muted)}
+.question{font-size:clamp(24px,4.5vw,38px);line-height:1.45;font-weight:900;margin:28px 0}
+.ox{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ox button{min-height:150px;border-radius:24px;border:2px solid var(--line);background:#101a2a;color:white;font-weight:1000;font-size:70px;cursor:pointer}
+.ox .o:hover{border-color:var(--green);background:#133226}
+.ox .x:hover{border-color:var(--red);background:#35171d}
+.feedback{margin-top:16px;border-radius:16px;padding:15px 16px;font-weight:800;line-height:1.6}
+.correct{background:rgba(47,209,128,.13);border:1px solid rgba(47,209,128,.45);color:#9ff0c6}
+.wrong{background:rgba(255,107,116,.13);border:1px solid rgba(255,107,116,.45);color:#ffb1b6}
+.next{margin-top:12px}
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.stat{background:var(--panel2);border:1px solid var(--line);padding:16px;border-radius:16px;text-align:center}
+.stat b{font-size:28px;display:block}
+.wrongList{display:grid;gap:10px;margin-top:16px}
+.wrongItem{padding:14px 16px;border-radius:14px;background:#101a2a;border:1px solid var(--line);line-height:1.5}
+.wrongItem small{color:var(--muted)}
+footer{color:#6e8099;text-align:center;font-size:12px;margin-top:26px}
+@media(max-width:640px){.grid{grid-template-columns:repeat(2,1fr)}.ox button{min-height:120px}.card{padding:18px}.statgrid{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="badge">이상웅 교수 강의 기준 · 1–6주차</span>
+  <h1>개혁주의 인간론<br>OX 퀴즈</h1>
+  <p class="lead">주차별·전체 랜덤으로 풀고, 틀린 문제만 다시 복습할 수 있습니다. 기록은 이 기기에 자동 저장됩니다.</p>
+</header>
+
+<section id="setup" class="card">
+  <h2>범위 선택</h2>
+  <div class="grid" id="weekGrid">
+    <button class="weekBtn active" data-week="all">전체 140</button>
+    <button class="weekBtn" data-week="1">1주차</button>
+    <button class="weekBtn" data-week="2">2주차</button>
+    <button class="weekBtn" data-week="3">3주차</button>
+    <button class="weekBtn" data-week="4">4주차</button>
+    <button class="weekBtn" data-week="5">5주차</button>
+    <button class="weekBtn" data-week="6">6주차</button>
+    <button class="weekBtn" data-week="trap">함정 20제</button>
+    <button class="weekBtn" data-week="wrong">오답노트</button>
+  </div>
+
+  <h2 style="margin-top:22px">출제 방식</h2>
+  <div class="row">
+    <select id="count">
+      <option value="10">10문제</option>
+      <option value="20" selected>20문제</option>
+      <option value="30">30문제</option>
+      <option value="all">범위 전체</option>
+    </select>
+    <select id="order">
+      <option value="random" selected>랜덤 출제</option>
+      <option value="seq">순서대로</option>
+    </select>
+  </div>
+  <button id="startBtn" class="primary">퀴즈 시작</button>
+  <div style="margin-top:14px;padding:13px 14px;border-radius:14px;background:#0f1a2c;border:1px solid #2a3b59;color:#9eb0c9;line-height:1.55;font-size:13px">
+    <strong style="color:#f7f9fc">Safari 사용</strong><br>
+    이 파일은 Safari 호환입니다. GitHub Pages에 올리면 일반 웹주소로 열 수 있고 홈 화면에도 추가할 수 있습니다.
+  </div>
+  <div class="meta" id="savedInfo" style="margin-top:12px"></div>
+</section>
+
+<section id="quiz" class="card hidden">
+  <div class="quizTop">
+    <div>
+      <div class="meta" id="scopeText"></div>
+      <strong id="counter"></strong>
+    </div>
+    <button class="secondary" id="quitBtn">나가기</button>
+  </div>
+  <div class="progressTrack"><div class="progressBar" id="progress"></div></div>
+  <div class="question" id="questionText"></div>
+  <div class="ox" id="oxButtons">
+    <button class="o" data-answer="O">O</button>
+    <button class="x" data-answer="X">X</button>
+  </div>
+  <div id="feedback" class="feedback hidden"></div>
+  <button id="nextBtn" class="primary next hidden">다음 문제</button>
+</section>
+
+<section id="result" class="card hidden">
+  <span class="badge">RESULT</span>
+  <h2 style="font-size:34px;margin-bottom:4px">채점 결과</h2>
+  <div class="statgrid">
+    <div class="stat"><b id="scorePct">0%</b><span>정답률</span></div>
+    <div class="stat"><b id="scoreRaw">0/0</b><span>정답</span></div>
+    <div class="stat"><b id="wrongRaw">0</b><span>오답</span></div>
+  </div>
+  <div class="row" style="margin-top:14px">
+    <button class="secondary" id="retryWrong">이번 오답만 다시</button>
+    <button class="secondary" id="homeBtn">범위 다시 선택</button>
+  </div>
+  <div class="wrongList" id="wrongList"></div>
+</section>
+
+<footer>정리 기준: 개혁주의 인간론 1–6주차 강의 및 시험공부용 요약자료</footer>
+</div>
+
+<script>
+const QUESTIONS = [{"id": 1, "week": 1, "q": "개혁주의 인간론에서는 인간론을 개별 신학자의 독창적인 견해보다 역사적 개혁주의 전통 속에서 공부해야 한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 2, "week": 1, "q": "박형룡의 조직신학은 총신과 한국 보수 장로교 조직신학의 중요한 역사적 골격으로 소개된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 3, "week": 1, "q": "교수님은 개혁주의와 복음주의를 사실상 동일한 개념으로 사용한다.", "a": "X", "exp": "개혁주의와 복음주의는 동일한 범주가 아닙니다. 복음주의가 더 넓고, 그 안에는 개혁주의와 다른 인간론·창조론 입장도 존재할 수 있습니다."}, {"id": 4, "week": 1, "q": "복음주의 안에서도 유신진화론을 받아들이는 신학자들이 존재할 수 있다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 5, "week": 1, "q": "교수님의 유신진화론에 대한 가장 중요한 관심은 과학적 진화 메커니즘 자체를 자연과학적으로 반박하는 것이다.", "a": "X", "exp": "교수님의 초점은 자연과학 자체를 판정하는 데 있지 않고, 유신진화론을 받아들일 때 역사적 아담·원죄·전가·구원론이 어떻게 달라지는지를 보는 데 있습니다."}, {"id": 6, "week": 1, "q": "역사적 아담 문제는 인간의 기원에만 관계되고 원죄론이나 구원론과는 직접적인 관련이 없다.", "a": "X", "exp": "역사적 아담은 인간의 기원뿐 아니라 원죄, 죄의 전가, 로마서 5장의 아담–그리스도 구조와 직접 연결됩니다."}, {"id": 7, "week": 1, "q": "로마서 5장의 아담과 그리스도 평행구조는 역사적 아담 문제와 연결된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 8, "week": 1, "q": "교수님은 인간과 침팬지의 생물학적 유사성이 존재할 수 있다는 사실 자체를 부정한다.", "a": "X", "exp": "교수님은 인간과 동물의 생물학적 유사성 자체를 부정하지 않습니다. 유사성이 곧 동일성이나 진화론적 결론을 뜻하지 않는다고 구별합니다."}, {"id": 9, "week": 1, "q": "인간과 동물의 생물학적 유사성이 있다고 해서 인간과 동물이 동일한 존재라는 결론이 자동으로 도출되는 것은 아니다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 10, "week": 1, "q": "교수님은 과학 자체와 과학주의를 구별한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 11, "week": 1, "q": "과학은 언제나 세계관과 전제로부터 완전히 독립된 중립적 활동이라는 것이 교수님의 입장이다.", "a": "X", "exp": "교수님은 과학도 학파·가설·세계관의 영향을 받을 수 있다고 보며, 과학과 과학주의를 구별합니다."}, {"id": 12, "week": 1, "q": "교수님은 지구가 반드시 약 6천 년 되었다는 것을 개혁주의 인간론의 필수 교리로 제시한다.", "a": "X", "exp": "정확한 창조 연대를 6천 년으로 확정하는 것을 인간론의 필수 교리로 삼지 않습니다. 역사적 아담의 실재와 연대 계산은 구별합니다."}, {"id": 13, "week": 1, "q": "성경 족보를 이용하여 지구와 인간의 정확한 연대를 계산하는 것을 교수님은 신중하게 본다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 14, "week": 1, "q": "창세기 1:1–2:3과 2:4–25에는 강조점의 차이가 있지만, 차이가 곧 모순을 의미하는 것은 아니다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 15, "week": 1, "q": "bārāʾ, ʿāśâ, yāṣar는 모두 용례 연구 없이 동일하게 ‘창조하다’로 처리하면 된다.", "a": "X", "exp": "bārāʾ, ʿāśâ, yāṣar는 용례와 뉘앙스가 다르므로 문맥과 사용 범위를 구분해서 봐야 합니다."}, {"id": 16, "week": 1, "q": "bārāʾ는 창조 문맥에서 하나님을 주어로 사용하는 특징적인 동사이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 17, "week": 1, "q": "창세기 2장의 결혼은 단순히 고대 사회의 문화적 관습으로만 이해해야 한다.", "a": "X", "exp": "창세기 2장의 결혼은 단순한 사회 관습이 아니라 인간 창조와 연결된 창조질서로 다뤄집니다."}, {"id": 18, "week": 1, "q": "창 2:25의 ‘벌거벗었으나 부끄러워하지 않았다’는 말은 타락 이전 인간관계와 몸에 대한 상태와도 관련된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 19, "week": 1, "q": "타락은 하나님과 인간의 관계뿐 아니라 인간 상호관계와 몸을 바라보는 방식에도 영향을 미쳤다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 20, "week": 1, "q": "교수님의 입장은 창조의 정확한 연대에 대해서는 일정한 논의의 여지를 인정하지만, 역사적 아담의 실재는 중요하게 유지하는 것이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 1주차 핵심은 과학적 연대 문제와 역사적 아담의 실재를 구별하면서, 역사적 아담을 원죄·전가·로마서 5장과 연결해 보는 것입니다."}, {"id": 21, "week": 2, "q": "질병은 타락한 세계와 관련되므로 특정 질병에 걸린 사람에게 그 사람의 특정 죄가 직접 원인이라고 판단할 수 있다.", "a": "X", "exp": "질병이 타락한 세계와 관련된다고 해서 특정 개인의 특정 죄를 그 질병의 직접 원인으로 단정할 수는 없습니다."}, {"id": 22, "week": 2, "q": "창 1:31의 tôb meʾōd는 하나님께서 물질세계와 인간의 몸까지 포함한 창조 전체를 긍정하셨다는 사실과 관계된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 23, "week": 2, "q": "교수님은 기독교 인간론의 기본 구조를 영은 선하고 물질과 육체는 악하다는 영육이원론으로 이해한다.", "a": "X", "exp": "기독교 인간론은 영만 선하고 육체는 악하다는 식의 헬라적 영육이원론을 따르지 않습니다."}, {"id": 24, "week": 2, "q": "교수님은 수도원 운동의 모든 요소를 무조건 부정적으로 평가한다.", "a": "X", "exp": "교수님은 수도원 운동의 모든 요소를 전면 부정한 것이 아니라, 창조·육체·일상을 낮추는 이원론적 경향을 비판적으로 다룹니다."}, {"id": 25, "week": 2, "q": "종교개혁의 소명 이해에서는 일상의 노동도 하나님을 섬기는 영역이 될 수 있다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 26, "week": 2, "q": "인간은 동물과 생물학적·물질적 측면에서 어떠한 공통점도 갖지 않는다.", "a": "X", "exp": "인간과 동물은 육체적·물질적 측면에서 유사성이 있습니다. 다만 인간은 하나님의 형상이라는 독특성을 가집니다."}, {"id": 27, "week": 2, "q": "nephesh ḥayyâ라는 표현은 인간에게만 사용되고 동물에게는 사용되지 않는다.", "a": "X", "exp": "nephesh ḥayyâ는 인간뿐 아니라 동물에게도 사용됩니다. 인간과 동물이 ‘살아 있는 존재’라는 공통점을 보이는 표현입니다."}, {"id": 28, "week": 2, "q": "인간과 동물은 ‘살아 있는 존재’라는 측면에서 유사성을 갖지만 동일한 존재는 아니다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 29, "week": 2, "q": "오래된 지구 창조론과 유신진화론은 반드시 동일한 입장이다.", "a": "X", "exp": "오래된 지구 창조론과 유신진화론은 동일한 입장이 아닙니다. 연대 문제와 인간 기원·역사적 아담 문제는 구별해야 합니다."}, {"id": 30, "week": 2, "q": "교수님이 유신진화론에서 가장 심각하게 보는 문제 가운데 하나는 역사적 아담이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 31, "week": 2, "q": "교수님은 창세기 1–3장의 역사성을 인정하면서도 정확한 창조연대 계산과는 구별한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 32, "week": 2, "q": "히브리어 ṣelem은 그리스어 eikōn, 라틴어 imago와 연결된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 33, "week": 2, "q": "히브리어 원문에서는 ṣelem과 demût 사이에 반드시 ‘그리고’에 해당하는 접속사가 존재한다.", "a": "X", "exp": "히브리어 원문에서 ṣelem과 demût 사이에 접속사가 없다는 점을 교수님이 강조했습니다."}, {"id": 34, "week": 2, "q": "70인역과 불가타에서는 형상과 모양 사이에 접속사가 들어가면서 두 요소를 분리해서 보는 역사적 해석에 영향을 주었다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 35, "week": 2, "q": "교수님은 ṣelem과 demût을 서로 완전히 별개의 두 인간 구성요소로 이해한다.", "a": "X", "exp": "ṣelem과 demût은 근본적으로 서로 다른 두 요소가 아니라 병행적으로 이해해야 하며, 뉘앙스 차이는 설명할 수 있습니다."}, {"id": 36, "week": 2, "q": "archetype은 하나님, ectype은 하나님을 피조물의 수준에서 반영하는 인간을 설명하는 데 사용된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 37, "week": 2, "q": "인간이 하나님의 형상이라는 것은 인간이 하나님과 동일한 본질을 가진다는 의미이다.", "a": "X", "exp": "인간은 하나님과 동일 본질이 아니라, 피조물의 수준에서 원형이신 하나님을 반영하는 ectype입니다."}, {"id": 38, "week": 2, "q": "인간의 통치권은 창조세계를 자기 마음대로 사용할 수 있는 절대적 지배권을 의미한다.", "a": "X", "exp": "‘다스리라’는 명령은 착취 허가가 아니라 하나님께 위임받은 통치입니다. 인간은 vice-regent로 이해됩니다."}, {"id": 39, "week": 2, "q": "인간은 하나님의 vice-regent, 즉 하나님께 위임받아 통치하는 존재로 설명될 수 있다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 40, "week": 2, "q": "교수님은 인간을 단순히 하나님의 형상을 ‘소유한 존재’보다 인간 전체가 하나님의 형상이라고 설명한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 2주차 핵심은 인간과 동물의 유사성을 인정하되, 인간 전체가 하나님의 형상이며 하나님을 피조물의 수준에서 반영한다는 점입니다."}, {"id": 41, "week": 3, "q": "로마교회의 전통적 초자연주의 인간론에서는 naturalia와 supernaturalia의 구별이 중요하다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 42, "week": 3, "q": "donum superadditum은 인간의 자연적 본성 자체를 뜻한다.", "a": "X", "exp": "donum superadditum은 자연적 본성 자체가 아니라 자연 위에 덧붙여진 초자연적 선물을 뜻합니다."}, {"id": 43, "week": 3, "q": "로마교회의 이층 구조에서는 타락으로 초자연적 선물은 상실되지만 자연적 인간성은 비교적 건재하다고 이해한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 44, "week": 3, "q": "교수님은 로마교회의 자연인 이해를 개혁주의보다 더 낙관적이라고 평가한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 45, "week": 3, "q": "‘익명의 그리스도인’ 사상과 관련하여 칼 라너가 언급되었다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 46, "week": 3, "q": "교수님은 종교다원주의를 자신의 개혁주의적 입장으로 제시한다.", "a": "X", "exp": "교수님의 개혁주의적 입장은 종교다원주의가 아니라 그리스도 중심의 배타적 구원 이해입니다."}, {"id": 47, "week": 3, "q": "개혁주의에서 예수 그리스도 외에 다른 구원의 이름이 없다는 배타적 구원 이해가 강조된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 48, "week": 3, "q": "하나님의 형상은 인간의 이성 하나로 완전히 정의할 수 있다.", "a": "X", "exp": "하나님의 형상을 이성 하나로 환원하지 않습니다. 인간 전체를 포괄하는 형상 이해가 강조됩니다."}, {"id": 49, "week": 3, "q": "개혁파 형상론의 특징 가운데 하나는 인간 전체를 포괄하는 all-inclusive한 이해이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 50, "week": 3, "q": "협의의 하나님의 형상에는 참된 지식, 의, 거룩이 포함된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 51, "week": 3, "q": "타락 이후 협의의 형상은 그대로 온전하게 남아 있다.", "a": "X", "exp": "협의의 형상(참된 지식·의·거룩)은 타락으로 상실되었습니다."}, {"id": 52, "week": 3, "q": "타락 이후 광의의 형상은 전혀 남지 않는다.", "a": "X", "exp": "광의의 형상은 타락 이후에도 남아 있습니다. 다만 죄의 영향을 받지 않은 채 온전하게 남는 것은 아닙니다."}, {"id": 53, "week": 3, "q": "광의의 형상이 남아 있다는 것은 인간의 이성·도덕성·양심 등이 죄의 영향을 전혀 받지 않았다는 뜻이다.", "a": "X", "exp": "광의의 형상이 남아 있어도 인간의 이성·양심·도덕성은 죄의 영향을 받습니다."}, {"id": 54, "week": 3, "q": "전적 타락은 모든 비신자가 가능한 최악의 악을 모두 행한다는 의미이다.", "a": "X", "exp": "전적 타락은 가능한 한 최악의 악을 모두 행한다는 뜻이 아니라, 인간 존재의 모든 영역이 죄의 영향을 받았다는 뜻입니다."}, {"id": 55, "week": 3, "q": "전적 타락은 인간 존재의 모든 영역이 죄의 영향을 받았다는 의미이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 56, "week": 3, "q": "전적 무능력은 비신자가 학문, 예술, 시민적 선을 전혀 행하지 못한다는 뜻이다.", "a": "X", "exp": "전적 무능력은 하나님을 향한 영적 선에 관한 무능력입니다. 일반은총 아래 비신자도 시민적·사회적 선과 문화적 성취를 보일 수 있습니다."}, {"id": 57, "week": 3, "q": "비신자의 탁월성과 도덕적 선을 설명하는 데 일반은총이 중요한 개념이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 58, "week": 3, "q": "비신자를 올바르게 이해하려면 전적 타락과 일반은총이라는 두 렌즈를 함께 사용해야 한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 59, "week": 3, "q": "교수님은 인간을 영·혼·몸이라는 세 개의 독립적 실체로 나누는 삼분설을 받아들인다.", "a": "X", "exp": "교수님은 인간을 영·혼·몸 세 실체로 나누는 삼분설을 받아들이지 않습니다."}, {"id": 60, "week": 3, "q": "성경에서 영과 혼이 상호 교환적으로 쓰이는 용례가 삼분설에 대한 비판 근거 가운데 하나다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 61, "week": 3, "q": "교수님은 이분설이라는 말 자체를 무조건 잘못된 것으로 거부한다.", "a": "X", "exp": "교수님은 구조적 이원성, 즉 영혼과 육체의 실제 구별 자체는 인정합니다. 다만 살아 있는 인간을 분리된 두 조각처럼 보지 않습니다."}, {"id": 62, "week": 3, "q": "인간에게 영혼과 육체의 실제적 구별이 있다는 것은 교수님의 입장과 양립할 수 있다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 63, "week": 3, "q": "죽음에서 영혼과 육체의 분리가 일어난다는 점은 구조적 이원성의 근거가 된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 64, "week": 3, "q": "살아 있는 인간은 영혼과 육체가 우연히 외적으로 붙어 있는 존재일 뿐이다.", "a": "X", "exp": "살아 있는 인간은 영혼과 육체가 본성적으로 연합된 whole person, 즉 영육통일체입니다."}, {"id": 65, "week": 3, "q": "바빙크를 따라 교수님은 영혼과 육체의 연합을 본성적 연합으로 본다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 66, "week": 3, "q": "psychosomatic unity는 영혼과 육체 사이의 모든 구별을 부정하는 일원론을 의미한다.", "a": "X", "exp": "psychosomatic unity는 영혼과 육체의 구별을 없애는 일원론이 아니라, 구조적 구별과 전인적 통일성을 함께 말합니다."}, {"id": 67, "week": 3, "q": "개혁주의 인간론에서는 살아 있는 인간을 whole person으로 보는 것이 중요하다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 68, "week": 3, "q": "교수님은 죽음 이후 영혼의 존재를 사실상 부정하는 방향 역시 받아들이지 않는다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 69, "week": 3, "q": "도예베르트에 대한 교수님의 비판은 그가 헬라적 이원론을 충분히 강하게 지지하지 않았기 때문이다.", "a": "X", "exp": "도예베르트 비판의 핵심은 그가 헬라적 이원론을 지지해서가 아니라, 반대로 죽음 이후 영혼의 존재를 약화하는 방향으로 간 점에 있습니다."}, {"id": 70, "week": 3, "q": "교수님의 최종 결론은 ‘구조적 이원성’과 ‘전인적 영육통일성’을 함께 유지하는 것이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 3주차 핵심은 광의/협의의 형상, 전적 타락과 일반은총의 동시 강조, 그리고 구조적 이원성과 영육통일체를 함께 유지하는 것입니다."}, {"id": 71, "week": 4, "q": "개혁주의에서 성경은 norma normans, 규범 짓는 규범이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 72, "week": 4, "q": "신앙고백서는 성경과 동일한 절대적 권위를 갖는 norma normans이다.", "a": "X", "exp": "성경이 norma normans이고, 신앙고백은 성경에 의해 규범화된 norma normata입니다."}, {"id": 73, "week": 4, "q": "신앙고백서는 norma normata, 즉 성경에 의해 규범화된 규범이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 74, "week": 4, "q": "Sola Scriptura와 함께 개혁파는 Tota Scriptura, 즉 성경 전체를 강조한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 75, "week": 4, "q": "Three Forms of Unity에는 벨직 신앙고백, 하이델베르크 교리문답, 도르트 신조가 포함된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 76, "week": 4, "q": "Westminster Standards에는 웨스트민스터 신앙고백과 대·소교리문답이 포함된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 77, "week": 4, "q": "구약시대는 행위언약, 신약시대는 은혜언약이라고 구분하는 것이 교수님의 설명이다.", "a": "X", "exp": "행위언약/은혜언약 구분을 구약/신약 구분과 동일시하면 안 됩니다."}, {"id": 78, "week": 4, "q": "은혜언약은 신약시대에 처음 시작되었다.", "a": "X", "exp": "은혜언약은 신약에서 처음 시작된 것이 아니라 아담의 타락 이후 구약 역사 속에서도 전개됩니다."}, {"id": 79, "week": 4, "q": "아담의 타락 이후 구약의 구속역사도 은혜언약 안에서 이해할 수 있다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 80, "week": 4, "q": "구속언약의 라틴어 표현으로 foedus redemptionis 또는 pactum salutis가 언급된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 81, "week": 4, "q": "foedus operum은 은혜언약을 뜻한다.", "a": "X", "exp": "foedus operum은 행위언약입니다. 은혜언약은 foedus gratiae입니다."}, {"id": 82, "week": 4, "q": "foedus gratiae는 은혜언약이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 83, "week": 4, "q": "행위언약에서 아담은 인류를 대표하는 위치에 있다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 84, "week": 4, "q": "행위언약의 조건은 완전한 순종이며, 불순종의 형벌은 죽음이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 85, "week": 4, "q": "창세기 1–3장에 berit라는 명사가 없기 때문에 교수님은 행위언약 개념 자체를 포기한다.", "a": "X", "exp": "창 1–3장에 berit라는 명사가 직접 없어도 당사자·조건·약속·벌칙 등 언약적 구조가 존재할 수 있다고 봅니다."}, {"id": 86, "week": 4, "q": "‘언약’이라는 명칭이 직접 없더라도 당사자·조건·약속·벌칙 등의 언약 구성요소가 있을 수 있다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 87, "week": 4, "q": "선악과 명령의 본질은 단순히 특정 과일을 먹지 않는 외적 행동에만 있다.", "a": "X", "exp": "선악과 명령의 본질은 외적 행위 하나보다 하나님의 말씀을 신뢰하고 순종할 것인가의 문제입니다."}, {"id": 88, "week": 4, "q": "행위언약의 시험은 하나님을 믿고 의존하며 그의 판단에 순종할 것인가의 문제이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 89, "week": 4, "q": "행위언약의 약속으로 개혁파는 생명, 궁극적으로 영생을 이해한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 90, "week": 4, "q": "아담의 타락에 따른 죽음은 오직 육체적 죽음만을 가리킨다.", "a": "X", "exp": "아담의 불순종에 따른 죽음은 영적·육체적·영원한 죽음의 구조로 설명됩니다."}, {"id": 91, "week": 4, "q": "교수님은 죽음을 영적·육체적·영원한 죽음의 구조로 설명한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 92, "week": 4, "q": "로마서 5장은 아담과 그리스도를 각각 대표적 인물로 대조한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 93, "week": 4, "q": "역사적 아담을 부정해도 행위언약, 원죄, 죄의 전가에는 아무 영향이 없다.", "a": "X", "exp": "역사적 아담을 부정하면 대표성, 실제 범죄, 전가, 원죄, 행위언약, 로마서 5장의 평행구조까지 영향을 받습니다."}, {"id": 94, "week": 4, "q": "Calvin against the Calvinists는 칼빈과 후기 개혁파 사이의 단절을 강조하는 구도를 가리킨다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 95, "week": 4, "q": "교수님은 칼빈과 17세기 개혁파 정통주의 사이에 본질적 단절이 있다고 본다.", "a": "X", "exp": "교수님은 칼빈과 17세기 개혁파 사이에 본질적 단절보다 연속성과 발전이 있다고 봅니다."}, {"id": 96, "week": 4, "q": "John Murray는 ‘행위언약’이라는 용어 자체에 대해서는 불편함을 가졌지만 그 교리의 모든 실체를 거부한 것은 아니다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 97, "week": 4, "q": "Anthony Hoekema 역시 명칭 문제와 교리적 실체 문제를 구별해서 볼 필요가 있는 인물이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 98, "week": 4, "q": "교수님은 행위언약이라는 명칭을 거부하는 모든 신학자를 곧바로 개혁주의 밖으로 분류한다.", "a": "X", "exp": "행위언약이라는 ‘명칭’에 비판적인 개혁주의자와 교리적 실체 자체를 부정하는 입장을 구별해야 합니다."}, {"id": 99, "week": 4, "q": "웨스트민스터 신앙고백 7장은 언약을 다루며 행위언약과 은혜언약을 언급한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 4주차 핵심은 성경-신앙고백의 권위 질서와 행위언약의 대표성·순종·생명/죽음 구조를 그리스도의 성취와 연결하는 것입니다."}, {"id": 100, "week": 4, "q": "타락 이후에도 인간은 완전한 순종을 통하여 자신의 행위로 영생을 획득할 수 있다.", "a": "X", "exp": "타락 이후 죄인은 자기의 완전한 순종으로 영생을 얻을 수 없습니다. 그 요구는 그리스도께서 온전한 순종으로 성취하셨습니다."}, {"id": 101, "week": 5, "q": "창조 자체는 meʾōd ṭôb, 매우 좋은 상태로 창조되었다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 102, "week": 5, "q": "죄는 하나님께서 처음 창조하신 세계의 본래적 구성요소이다.", "a": "X", "exp": "죄는 선한 창조의 본래 요소가 아니라 창조세계에 들어온 침입자·기생충으로 설명됩니다."}, {"id": 103, "week": 5, "q": "교수님은 죄를 창조세계에 들어온 ‘침입자’ 또는 ‘기생충’으로 표현한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 104, "week": 5, "q": "죄의 최초 원인은 하나님에게 있다.", "a": "X", "exp": "하나님은 죄의 원인이 아닙니다. 죄의 시작은 피조물의 의지와 반역에 연결됩니다."}, {"id": 105, "week": 5, "q": "인간의 타락 이전에 천사의 타락이 있었다는 전제가 창세기 3장의 유혹과 연결된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 106, "week": 5, "q": "창세기 3장의 인간 죄는 선악과를 먹는 물리적 행위가 발생하는 순간에만 시작되었다.", "a": "X", "exp": "죄는 외적 행동 이전에 마음에서 진행됩니다. 교수님은 불신앙 → 왜곡된 욕망 → 불순종의 흐름을 설명합니다."}, {"id": 107, "week": 5, "q": "교수님이 설명한 죄의 전개는 ‘불신앙 → 왜곡된 욕망 → 불순종’이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 108, "week": 5, "q": "창 2:17의 môt tâmût는 죽음에 대한 강한 경고와 연결된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 109, "week": 5, "q": "모든 욕망은 창조 때부터 그 자체로 악하였다.", "a": "X", "exp": "욕망 자체가 창조적으로 모두 악한 것은 아닙니다. 타락 이후 욕망의 방향이 하나님 중심에서 자기중심으로 왜곡된 것이 문제입니다."}, {"id": 110, "week": 5, "q": "타락 이전 인간에게도 건전한 desire가 존재할 수 있었다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 111, "week": 5, "q": "타락의 문제는 욕망 자체의 존재보다 욕망의 방향이 하나님 중심에서 자기중심으로 왜곡된 것과 관련된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 112, "week": 5, "q": "theonomy는 인간이 자기 자신을 최종 법으로 삼는 것을 뜻한다.", "a": "X", "exp": "theonomy는 하나님의 뜻과 법을 기준으로 사는 ‘신율’을 뜻합니다. 자기 자신이 법이 되는 것은 autonomy입니다."}, {"id": 113, "week": 5, "q": "autonomy는 autos + nomos로, 자기 자신이 자신의 법이 되려는 태도와 관계된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 114, "week": 5, "q": "인간은 하나님으로부터 독립함으로써 완전한 자율과 자유를 획득했다.", "a": "X", "exp": "하나님으로부터 독립하려 한 인간은 참된 자유를 얻은 것이 아니라 죄·욕망·세상·사탄의 지배 아래 놓였습니다."}, {"id": 115, "week": 5, "q": "교수님의 설명에서는 하나님에게서 독립하려 한 인간이 오히려 죄·욕망·세상·사탄에 종속된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 116, "week": 5, "q": "역사적 타락의 문제는 원죄론과 관계가 없다.", "a": "X", "exp": "역사적 타락은 원죄의 기원과 직접 연결됩니다. 실제 아담과 실제 타락을 약화하면 원죄 설명에도 영향을 줍니다."}, {"id": 117, "week": 5, "q": "펠라기우스주의는 아담의 죄로 인해 모든 인간이 본성적으로 타락하여 태어난다는 교리를 강하게 주장한다.", "a": "X", "exp": "펠라기우스주의는 원죄와 전적 부패를 부정하는 방향이며, 개인의 자유의지와 개인적 범죄를 강조합니다."}, {"id": 118, "week": 5, "q": "펠라기우스주의에서는 개인의 자유의지와 개인적 범죄가 강조된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 119, "week": 5, "q": "로마교회의 인간론은 naturalia + supernaturalia 구조와 연결된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 120, "week": 5, "q": "개혁주의의 전적 타락은 인간의 지성·의지·정서·욕망·관계 등 전 존재가 죄의 영향을 받았다는 뜻이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 5주차 핵심은 선한 창조 안으로 죄가 침입했고, 죄가 불신앙→왜곡된 욕망→불순종으로 전개되며 전적 타락과 무능력으로 이어진다는 것입니다."}, {"id": 121, "week": 6, "q": "imputation은 내 것이 아닌 것이 나의 것으로 간주되는 것을 뜻한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 122, "week": 6, "q": "imputatio는 전가를 뜻하는 라틴어이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 123, "week": 6, "q": "peccatum originale은 원죄를 의미한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 124, "week": 6, "q": "죄의 보편성에 대한 개혁주의적 설명에서 아담의 첫 범죄와 죄의 전가는 중요하지 않다.", "a": "X", "exp": "개혁주의의 죄 보편성 설명에서 아담의 첫 범죄와 그 죄의 전가는 핵심입니다."}, {"id": 125, "week": 6, "q": "로마서 5:12–21에서 교수님은 아담의 ‘수많은 범죄’와 그리스도의 ‘수많은 의로운 행위’를 핵심 대조로 본다.", "a": "X", "exp": "로마서 5장의 대조는 아담의 ‘한 범죄’와 그리스도의 ‘한 의로운 행동’입니다."}, {"id": 126, "week": 6, "q": "바울의 논증에서 아담의 한 범죄와 그리스도의 한 의로운 행동이 대조된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 127, "week": 6, "q": "교수님은 그리스도의 의로운 행동을 십자가만으로 제한하고 그 이전의 삶의 순종은 제외한다.", "a": "X", "exp": "그리스도의 의로운 행동은 십자가 몇 시간에만 제한되지 않고, 십자가를 절정으로 하는 전 생애의 온전한 순종과 연결됩니다."}, {"id": 128, "week": 6, "q": "그리스도의 십자가는 그의 전 생애의 온전한 순종의 절정으로 이해된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 129, "week": 6, "q": "원죄의 두 요소 가운데 교수님은 ‘오염 → 죄책’의 순서를 강조한다.", "a": "X", "exp": "교수님이 강조한 순서는 오염 → 죄책이 아니라 죄책 → 오염/부패입니다."}, {"id": 130, "week": 6, "q": "교수님은 ‘죄책 → 오염/부패’의 순서를 강조한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 131, "week": 6, "q": "실제론적 이론은 아담과 후손의 자연적·혈통적 연대성을 중심으로 설명한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 132, "week": 6, "q": "언약론적 이론은 아담을 하나님께서 세우신 언약적 대표자로 이해한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 133, "week": 6, "q": "교수님은 최종적으로 실제론적 이론을 자신의 입장으로 선택한다.", "a": "X", "exp": "교수님은 실제론보다 언약론적·대표론적 설명을 따릅니다."}, {"id": 134, "week": 6, "q": "교수님은 언약론적·대표론적 설명을 따른다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 135, "week": 6, "q": "Federal Theology의 federal은 이 문맥에서 미국식 연방제도를 뜻하므로 ‘연방신학’이라고 이해하는 것이 가장 정확하다.", "a": "X", "exp": "Federal Theology의 federal은 여기서 ‘연방’보다 라틴어 foedus(언약)와 연결하여 이해해야 합니다."}, {"id": 136, "week": 6, "q": "교수님은 Federal Theology를 라틴어 foedus와 연결하여 언약신학의 의미로 이해해야 한다고 강조한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 137, "week": 6, "q": "매개적 전가는 매개체가 전혀 없는 전가를 의미한다.", "a": "X", "exp": "mediate는 매개체가 있는 전가, immediate는 매개체 없이 언약적 대표성에 따라 죄책이 전가되는 설명입니다."}, {"id": 138, "week": 6, "q": "비매개적 전가에서는 아담의 죄책이 생식이라는 매개를 거치지 않고 언약적 대표성에 따라 전가된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 139, "week": 6, "q": "언약론적 설명은 immediate imputation과 연결된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}, {"id": 140, "week": 6, "q": "삼중전가는 ‘아담의 죄 → 우리, 우리의 죄 → 그리스도, 그리스도의 의 → 우리’의 구조이다.", "a": "O", "exp": "강의 기준으로 맞습니다. 6주차 핵심은 아담의 언약적 대표성에 따른 죄책 전가와 그리스도의 의 전가를 통해 ‘아담 안에서’와 ‘그리스도 안에서’를 대조하는 것입니다."}];
+const TRAPS = [{"id": "T1", "week": "함정", "q": "역사적 아담을 인정하려면 반드시 지구의 나이를 약 6천 년으로 보아야 한다.", "a": "X", "exp": "역사적 아담의 실재와 정확한 창조 연대 계산은 구별됩니다. 교수님은 젊은 지구 연대를 필수 교리로 고정하지 않습니다."}, {"id": "T2", "week": "함정", "q": "인간과 동물 사이에 생물학적 유사성이 있다는 사실 자체는 개혁주의 인간론과 모순된다.", "a": "X", "exp": "생물학적 유사성 자체는 인정할 수 있습니다. 문제는 그 유사성을 인간과 동물의 동일성이나 역사적 아담 부정으로 곧바로 연결하는 것입니다."}, {"id": "T3", "week": "함정", "q": "ṣelem과 demût은 인간에게 주어진 서로 완전히 다른 두 부분이다.", "a": "X", "exp": "ṣelem과 demût은 서로 완전히 다른 두 부분이 아니라 병행적으로 이해됩니다."}, {"id": "T4", "week": "함정", "q": "타락 후 인간은 하나님의 형상을 완전히 잃어 더 이상 하나님의 형상이 아니다.", "a": "X", "exp": "타락 후에도 광의의 하나님의 형상은 남아 있습니다. 다만 협의의 형상은 상실되고 광의의 형상도 죄의 영향을 받습니다."}, {"id": "T5", "week": "함정", "q": "협의의 형상은 참된 지식·의·거룩과 관계된다.", "a": "O", "exp": "강의 기준으로 맞습니다. 이 문장은 시험에서 반대로 뒤집어 X로 만들기 쉬운 핵심 구별입니다."}, {"id": "T6", "week": "함정", "q": "광의의 형상이 남아 있다는 것은 자연인의 이성이 죄로부터 완전히 자유롭다는 뜻이다.", "a": "X", "exp": "광의의 형상이 남아 있어도 자연인의 이성과 도덕성은 죄의 영향을 받습니다."}, {"id": "T7", "week": "함정", "q": "전적 타락은 모든 인간이 실제로 가능한 최악의 수준까지 악하다는 뜻이다.", "a": "X", "exp": "전적 타락은 ‘최대한 악함’이 아니라 ‘전 존재가 죄의 영향을 받음’을 뜻합니다."}, {"id": "T8", "week": "함정", "q": "일반은총은 전적 타락 교리를 부정하기 위해 도입되는 개념이다.", "a": "X", "exp": "일반은총은 전적 타락을 부정하는 것이 아니라, 타락한 인간에게도 시민적 선과 문화적 탁월성이 나타나는 이유를 설명합니다."}, {"id": "T9", "week": "함정", "q": "교수님은 인간을 단순한 삼분설보다 구조적 이원성과 영육통일체로 이해한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 이 문장은 시험에서 반대로 뒤집어 X로 만들기 쉬운 핵심 구별입니다."}, {"id": "T10", "week": "함정", "q": "구약은 행위언약 시대이고 신약은 은혜언약 시대이다.", "a": "X", "exp": "행위언약/은혜언약의 구분을 구약/신약과 동일시하면 안 됩니다."}, {"id": "T11", "week": "함정", "q": "창 1–3장에 berit가 직접 없으므로 행위언약이라고 부를 근거가 전혀 없다.", "a": "X", "exp": "창 1–3장에 berit라는 단어가 없어도 언약의 구성요소가 존재한다는 것이 교수님의 설명입니다."}, {"id": "T12", "week": "함정", "q": "John Murray가 ‘행위언약’이라는 명칭을 선호하지 않았다는 것은 그가 아담의 시험과 대표성을 모두 부정했다는 뜻이다.", "a": "X", "exp": "John Murray는 명칭을 선호하지 않았지만 아담의 시험·대표성 등 교리적 실체를 전부 부정한 것은 아닙니다."}, {"id": "T13", "week": "함정", "q": "타락 이후 인간은 행위언약의 요구에 완전히 순종함으로 자기 힘으로 영생을 얻을 수 있다.", "a": "X", "exp": "타락 이후 인간은 자신의 순종으로 영생을 획득할 수 없습니다. 그 요구는 그리스도께서 성취하셨습니다."}, {"id": "T14", "week": "함정", "q": "그리스도께서는 아담이 실패한 순종의 요구를 완전히 성취하셨다.", "a": "O", "exp": "강의 기준으로 맞습니다. 이 문장은 시험에서 반대로 뒤집어 X로 만들기 쉬운 핵심 구별입니다."}, {"id": "T15", "week": "함정", "q": "전적 무능력은 비신자가 시민적·사회적 선을 전혀 행하지 못한다는 의미이다.", "a": "X", "exp": "전적 무능력은 하나님을 향한 영적 선에 대한 무능력이며, 비신자의 시민적·사회적 선까지 부정하는 개념은 아닙니다."}, {"id": "T16", "week": "함정", "q": "타락한 인간의 자율 추구는 결국 죄와 욕망에 대한 종속으로 이어진다.", "a": "O", "exp": "강의 기준으로 맞습니다. 이 문장은 시험에서 반대로 뒤집어 X로 만들기 쉬운 핵심 구별입니다."}, {"id": "T17", "week": "함정", "q": "원죄에서는 오염된 본성이 먼저 전달되고 그 결과로 죄책이 발생한다는 것이 교수님의 최종 입장이다.", "a": "X", "exp": "교수님의 순서는 죄책 → 오염/부패입니다."}, {"id": "T18", "week": "함정", "q": "mediate와 immediate의 차이는 우선 ‘매개체(media)가 있느냐 없느냐’로 이해해야 한다.", "a": "O", "exp": "강의 기준으로 맞습니다. 이 문장은 시험에서 반대로 뒤집어 X로 만들기 쉬운 핵심 구별입니다."}, {"id": "T19", "week": "함정", "q": "개혁주의 전가론에서는 아담이 실제 역사적 인물이라는 사실이 중요하다.", "a": "O", "exp": "강의 기준으로 맞습니다. 이 문장은 시험에서 반대로 뒤집어 X로 만들기 쉬운 핵심 구별입니다."}, {"id": "T20", "week": "함정", "q": "그리스도의 의의 전가는 우리가 실제로 그리스도와 동일한 도덕적 삶을 살았기 때문에 의롭다고 인정받는다는 뜻이다.", "a": "X", "exp": "그리스도의 의의 전가는 우리가 동일한 도덕적 삶을 실제로 살았기 때문이 아니라, 그리스도의 의가 믿는 자에게 전가되는 것입니다."}];
+
+let selectedWeek = "all";
+let active = [], idx = 0, correct = 0, currentAnswered = false, sessionWrong = [];
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+function getWrongIds(){
+  try{return JSON.parse(localStorage.getItem("anthroWrong")||"[]")}catch(e){return []}
+}
+function saveWrong(id){
+  const ids=new Set(getWrongIds()); ids.add(String(id));
+  localStorage.setItem("anthroWrong", JSON.stringify([...ids]));
+}
+function clearWrong(id){
+  const ids=getWrongIds().filter(x=>x!==String(id));
+  localStorage.setItem("anthroWrong", JSON.stringify(ids));
+}
+function stats(){
+  let s={};
+  try{s=JSON.parse(localStorage.getItem("anthroStats")||"{}")}catch(e){}
+  return s;
+}
+function saveStats(){
+  const s=stats();
+  s.played=(s.played||0)+1; s.correct=(s.correct||0)+correct; s.total=(s.total||0)+active.length;
+  localStorage.setItem("anthroStats",JSON.stringify(s));
+}
+function updateSavedInfo(){
+  const s=stats(), w=getWrongIds().length;
+  $("#savedInfo").textContent = `누적 풀이 ${s.played||0}회 · 누적 정답 ${(s.correct||0)}/${(s.total||0)} · 저장된 오답 ${w}개`;
+}
+updateSavedInfo();
+
+$$(".weekBtn").forEach(btn=>btn.addEventListener("click",()=>{
+  $$(".weekBtn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active"); selectedWeek=btn.dataset.week;
+}));
+
+function shuffle(a){
+  const arr=[...a];
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}
+  return arr;
+}
+function pool(){
+  if(selectedWeek==="trap") return TRAPS.map(x=>({...x}));
+  if(selectedWeek==="wrong"){
+    const ids=new Set(getWrongIds());
+    return [...QUESTIONS,...TRAPS].filter(q=>ids.has(String(q.id)));
+  }
+  if(selectedWeek==="all") return QUESTIONS.map(x=>({...x}));
+  return QUESTIONS.filter(q=>String(q.week)===selectedWeek).map(x=>({...x}));
+}
+function start(custom=null){
+  let p=custom ? [...custom] : pool();
+  if(!p.length){ alert("저장된 오답이 없습니다."); return; }
+  const order=$("#order").value;
+  if(order==="random") p=shuffle(p);
+  const c=$("#count").value;
+  if(!custom && c!=="all") p=p.slice(0,Math.min(+c,p.length));
+  active=p; idx=0; correct=0; sessionWrong=[]; currentAnswered=false;
+  $("#setup").classList.add("hidden"); $("#result").classList.add("hidden"); $("#quiz").classList.remove("hidden");
+  render();
+}
+$("#startBtn").addEventListener("click",()=>start());
+
+function render(){
+  const q=active[idx];
+  currentAnswered=false;
+  $("#feedback").className="feedback hidden";
+  $("#nextBtn").classList.add("hidden");
+  $$("#oxButtons button").forEach(b=>{b.disabled=false;b.style.opacity="1"});
+  $("#counter").textContent=`${idx+1} / ${active.length}`;
+  $("#scopeText").textContent = q.week==="함정" ? "함정 20제" : `${q.week}주차 · 문제 ${q.id}`;
+  $("#progress").style.width=`${((idx)/active.length)*100}%`;
+  $("#questionText").textContent=q.q;
+}
+$$("#oxButtons button").forEach(btn=>btn.addEventListener("click",()=>{
+  if(currentAnswered) return;
+  currentAnswered=true;
+  const q=active[idx], user=btn.dataset.answer, ok=user===q.a;
+  if(ok){ correct++; clearWrong(q.id); }
+  else { saveWrong(q.id); sessionWrong.push(q); }
+  $("#feedback").classList.remove("hidden");
+  $("#feedback").classList.add(ok?"correct":"wrong");
+  $("#feedback").innerHTML = ok
+   ? `정답입니다. <strong>${q.a}</strong>`
+   : `오답입니다. 정답은 <strong>${q.a}</strong> 입니다.<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.14);font-weight:700"><span style="color:#ffd166">핵심 해설</span><br>${escapeHtml(q.exp||"")}</div>`;
+  $$("#oxButtons button").forEach(b=>b.disabled=true);
+  $("#nextBtn").classList.remove("hidden");
+}));
+$("#nextBtn").addEventListener("click",()=>{
+  if(idx<active.length-1){idx++;render()} else finish();
+});
+$("#quitBtn").addEventListener("click",()=>{ if(confirm("퀴즈를 종료할까요?")) home(); });
+
+function finish(){
+  saveStats();
+  $("#progress").style.width="100%";
+  $("#quiz").classList.add("hidden"); $("#result").classList.remove("hidden");
+  const pct=Math.round(correct/active.length*100);
+  $("#scorePct").textContent=`${pct}%`;
+  $("#scoreRaw").textContent=`${correct}/${active.length}`;
+  $("#wrongRaw").textContent=sessionWrong.length;
+  const box=$("#wrongList"); box.innerHTML="";
+  if(sessionWrong.length){
+    const h=document.createElement("h3"); h.textContent="이번에 틀린 문제"; box.appendChild(h);
+    sessionWrong.forEach(q=>{
+      const d=document.createElement("div"); d.className="wrongItem";
+      d.innerHTML=`<small>${q.week==="함정"?"함정":q.week+"주차"} · ${q.id}</small><br>${escapeHtml(q.q)}<br><strong>정답 ${q.a}</strong><br><span style="color:#ffd166">해설</span> ${escapeHtml(q.exp||"")}`;
+      box.appendChild(d);
+    });
+  } else {
+    const d=document.createElement("div"); d.className="wrongItem"; d.textContent="전부 맞았습니다."; box.appendChild(d);
+  }
+  updateSavedInfo();
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function home(){
+  $("#quiz").classList.add("hidden"); $("#result").classList.add("hidden"); $("#setup").classList.remove("hidden"); updateSavedInfo();
+}
+$("#homeBtn").addEventListener("click",home);
+$("#retryWrong").addEventListener("click",()=>{
+  if(!sessionWrong.length){alert("이번 세션 오답이 없습니다.");return}
+  start(sessionWrong);
+});
+</script>
+</body>
+</html>
